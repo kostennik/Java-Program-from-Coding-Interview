@@ -59,7 +59,7 @@ public class Car {
         return "Car{" +
                 "car_id='" + car_id + '\'' +
                 ", coordinate=" + coordinate +
-                ", distance=" + distanceToTargetPosition + " m. " +
+                ", distance=" + distanceToTargetPosition +
                 '}' + "\n";
     }
 }
