@@ -1,7 +1,10 @@
 package com.example.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
+@Component
 public class Coordinate {
     private double latitude;
     private double longitude;
@@ -9,6 +12,9 @@ public class Coordinate {
     public Coordinate(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Coordinate() {
     }
 
     public double getLatitude() {
