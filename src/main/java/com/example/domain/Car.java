@@ -1,14 +1,19 @@
 package com.example.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
+@Component
 public class Car {
     private String car_id;
     private Coordinate coordinate;
+    private float distanceToTargetPosition;
 
-    public Car(String car_id, Coordinate coordinate) {
+    public Car(String car_id, Coordinate coordinate, float distanceToTargetPosition) {
         this.car_id = car_id;
         this.coordinate = coordinate;
+        this.distanceToTargetPosition = distanceToTargetPosition;
     }
 
     public Car(String car_id) {
@@ -54,6 +59,7 @@ public class Car {
         return "Car{" +
                 "car_id='" + car_id + '\'' +
                 ", coordinate=" + coordinate +
+                ", distance=" + distanceToTargetPosition + " m. " +
                 '}' + "\n";
     }
 }
