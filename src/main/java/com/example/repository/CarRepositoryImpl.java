@@ -15,48 +15,31 @@ public class CarRepositoryImpl implements CarRepository {
     Distance distance;
     private List<Car> carList;
     private String csvFile = "src/main/resources/gps_pos.csv";
-    BufferedReader br = null;
-    String line = "";
-    String cvsSplitBy = ",";
 
 
     @Override
-    public List<Car> findAllByCoordinates(Coordinate coordinate, int meter) {
+    public List<Car> findAllByCoordinates(Coordinate beginCoordinate, int meter) {
+        Coordinate targetCoordinate = new Coordinate();
         carList = new ArrayList<>();
+        CSVReader reader = null;
         try {
-            br = new BufferedReader(new FileReader(csvFile));
-            br.readLine(); //skip first line
-            while ((line = br.readLine()) != null) {
-                // use comma as separator
-                String[] cars = line.split(cvsSplitBy);
+            reader = new CSVReader(new FileReader(csvFile));
+            String[] cars;
+            reader.readNext();  //skip first line
+            while ((cars = reader.readNext()) != null) {
+                if (!cars[1].isEmpty() && !cars[1].isEmpty() && !cars[2].isEmpty()){
+                    targetCoordinate.setLatitude(Double.parseDouble(cars[1]));
+                    targetCoordinate.setLongitude(Double.parseDouble(cars[2]));
 
-                if (cars.length > 0 && !cars[2].equals(" ")) {
-                    System.out.println(cars[0] + " , lat="
-                         +   cars[1]
-                                    + ", long="
-                                    + cars[2] + "]"
-                    );
-
-                    carList.add(
-                            new Car(cars[0], new Coordinate(Double.parseDouble(cars[1]), Double.parseDouble(cars[2])))
-
-                    );
+                    if (Distance.distanceMeasurement(beginCoordinate, targetCoordinate) <= meter){
+                        carList.add(new Car(cars[0], targetCoordinate));
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
         return carList;
     }
-
 
 }

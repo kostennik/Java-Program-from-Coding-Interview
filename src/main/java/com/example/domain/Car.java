@@ -11,6 +11,14 @@ public class Car {
         this.coordinate = coordinate;
     }
 
+    public Car(String car_id) {
+        this.car_id = car_id;
+    }
+
+    public Car() {
+
+    }
+
     public String getCar_id() {
         return car_id;
     }
@@ -46,6 +54,6 @@ public class Car {
         return "Car{" +
                 "car_id='" + car_id + '\'' +
                 ", coordinate=" + coordinate +
-                '}';
+                '}' + "\n";
     }
 }
