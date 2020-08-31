@@ -5,6 +5,7 @@ import com.example.domain.Coordinate;
 import com.example.repository.CarRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,8 +21,6 @@ public class CarController {
 
     @GetMapping("/getCars/{lat}/{lon}/{meters}")
     public List<Car> getAll(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters){
-        List<Car> allByCoordinates = repository.findAllByCoordinates(new Coordinate(lat, lon), meters);
-        System.out.println(allByCoordinates);
-        return allByCoordinates;
+        return repository.findAllByCoordinates(new Coordinate(lat, lon), meters);
     }
 }
