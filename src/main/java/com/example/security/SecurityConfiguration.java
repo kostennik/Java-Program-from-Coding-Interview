@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Order(1)
 @Configuration
-@PropertySource("classpath:user.properties")
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
