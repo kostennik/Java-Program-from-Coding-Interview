@@ -22,7 +22,7 @@ public class CarController {
     }
 
     @GetMapping("/getCars/{lat}/{lon}/{meters}")
-    public ResponseEntity<List<Car>> getAll(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters){
+    public ResponseEntity<List<Car>> getByCoordinate(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters){
         List<Car>cars = repository.findAllByCoordinates(new Coordinate(lat, lon), meters);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cars-found", String.valueOf(cars.size()));
