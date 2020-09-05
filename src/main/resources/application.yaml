@@ -1,8 +1,14 @@
-user:
-  oauth:
+oauth:
     user:
-      username: Andrew
-      password: abcd
+      clientId: clientOne
+      clientSecret: clientsecret
 
     tokenValidityInSeconds: 3600
     refreshTokenValidityInSeconds: 86400
+
+security:
+    username: username
+    password: password
+
+
+

@@ -1,0 +1,8 @@
+[source,http,options="nowrap"]
+----
+GET /getCars/53.9/20.88/80 HTTP/1.1
+Authorization: Bearer <your_token>
+Accept: application/json
+Host: localhost:8080
+
+----

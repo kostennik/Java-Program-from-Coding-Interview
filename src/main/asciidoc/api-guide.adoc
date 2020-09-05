@@ -1,0 +1,7 @@
+==== Links
+
+include::{snippets}/get-cars-by-location/curl-request.adoc[]
+include::{snippets}/get-cars-by-location/http-request.adoc[]
+include::{snippets}/get-cars-by-location/http-response.adoc[]
+include::{snippets}/get-cars-by-location/httpie-request.adoc[]
+include::{snippets}/get-cars-by-location/response-body.adoc[]
