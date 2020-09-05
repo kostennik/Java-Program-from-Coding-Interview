@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CarController {
@@ -22,10 +24,12 @@ public class CarController {
     }
 
     @GetMapping("/getCars/{lat}/{lon}/{meters}")
-    public ResponseEntity<List<Car>> getByCoordinate(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters){
-        List<Car>cars = repository.findAllByCoordinates(new Coordinate(lat, lon), meters);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cars-found", String.valueOf(cars.size()));
-        return ResponseEntity.ok().headers(headers).body(cars);
+    public ResponseEntity<Map<Integer, Car>> getByCoordinate(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters) {
+        List<Car> cars = repository.findAllByCoordinates(new Coordinate(lat, lon), meters);
+        Map<Integer, Car> carMap = new HashMap<>();
+        for (int i = 0; i < cars.size(); i++) {
+            carMap.put(i, cars.get(i));
+        }
+        return ResponseEntity.ok().body(carMap);
     }
 }
