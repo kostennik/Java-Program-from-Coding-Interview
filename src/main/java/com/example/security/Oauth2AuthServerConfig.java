@@ -15,16 +15,16 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @EnableAuthorizationServer
 public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Value("${user.oauth.user.username}")
+    @Value("${oauth.user.clientId}")
     String clientId;
 
-    @Value("${user.oauth.user.password}")
+    @Value("${oauth.user.clientSecret}")
     String clientSecret;
 
-    @Value("${user.oauth.tokenValidityInSeconds}")
+    @Value("${oauth.tokenValidityInSeconds}")
     int tokenValiditySeconds;
 
-    @Value("${user.oauth.refreshTokenValidityInSeconds}")
+    @Value("${oauth.refreshTokenValidityInSeconds}")
     int refreshTokenValiditySeconds;
 
     final AuthenticationManager authenticationManager;
