@@ -6,30 +6,30 @@ import java.util.Objects;
 
 @Component
 public class Car {
-    private String car_id;
+    private String carId;
     private Coordinate coordinate;
     private float distanceToTargetPosition;
 
-    public Car(String car_id, Coordinate coordinate, float distanceToTargetPosition) {
-        this.car_id = car_id;
+    public Car(String carId, Coordinate coordinate, float distanceToTargetPosition) {
+        this.carId = carId;
         this.coordinate = coordinate;
         this.distanceToTargetPosition = distanceToTargetPosition;
     }
 
-    public Car(String car_id) {
-        this.car_id = car_id;
+    public Car(String carId) {
+        this.carId = carId;
     }
 
     public Car() {
 
     }
 
-    public String getCar_id() {
-        return car_id;
+    public String getCarId() {
+        return carId;
     }
 
-    public void setCar_id(String car_id) {
-        this.car_id = car_id;
+    public void setCarId(String carId) {
+        this.carId = carId;
     }
 
     public Coordinate getCoordinate() {
@@ -53,19 +53,19 @@ public class Car {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return car_id.equals(car.car_id) &&
+        return carId.equals(car.carId) &&
                 coordinate.equals(car.coordinate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(car_id, coordinate);
+        return Objects.hash(carId, coordinate);
     }
 
     @Override
     public String toString() {
         return "Car{" +
-                "car_id='" + car_id + '\'' +
+                "car_id='" + carId + '\'' +
                 ", coordinate=" + coordinate +
                 ", distance=" + distanceToTargetPosition +
                 '}' + "\n";
