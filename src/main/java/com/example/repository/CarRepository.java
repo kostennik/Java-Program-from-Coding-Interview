@@ -6,5 +6,7 @@ import com.example.domain.Coordinate;
 import java.util.List;
 
 public interface CarRepository {
-    public List<Car>findAllByCoordinates(Coordinate coordinate, int meter);
+    public List<Car> findCarsByCoordinatesAndDistance(Coordinate coordinate, int meter);
+
+    public void loadAllCarsInMemory();
 }

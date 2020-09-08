@@ -10,6 +10,11 @@ public class Car {
     private Coordinate coordinate;
     private float distanceToTargetPosition;
 
+    public Car(String carId, Coordinate coordinate) {
+        this.carId = carId;
+        this.coordinate = coordinate;
+    }
+
     public Car(String carId, Coordinate coordinate, float distanceToTargetPosition) {
         this.carId = carId;
         this.coordinate = coordinate;
