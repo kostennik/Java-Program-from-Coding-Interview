@@ -25,7 +25,7 @@ class CarRepositoryImplTest {
 
     @Test
     void findAllByCoordinates() {
-        List<Car> byCoordinates = repository.findAllByCoordinates(targetCoordinate, distance);
+        List<Car> byCoordinates = repository.findCarsByCoordinatesAndDistance(targetCoordinate, distance);
         byCoordinates.forEach(System.out::println);
         assertEquals(byCoordinates.size(), expectedCarQuantity);
     }
