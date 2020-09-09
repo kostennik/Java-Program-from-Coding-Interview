@@ -20,8 +20,6 @@ import java.util.Map;
 public class CarController {
 
     private final CarRepository repository;
-    private List<Car> cars = new ArrayList<>();
-    private Map<Integer, Car> carMap = new HashMap<>();
 
     public CarController(CarRepository repository) {
         this.repository = repository;
@@ -29,9 +27,10 @@ public class CarController {
 
     @GetMapping("/getCars/{lat}/{lon}/{meters}")
     public ResponseEntity<Map<Integer, Car>> getByCoordinate(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters) {
+        Map<Integer, Car> carMap = new HashMap<>();
 
         Thread userThread = new Thread(() -> {
-            cars = repository.findCarsByCoordinatesAndDistance(new Coordinate(lat, lon), meters);
+            List<Car> cars = repository.findCarsByCoordinatesAndDistance(new Coordinate(lat, lon), meters);
             for (int i = 0; i < cars.size(); i++) {
                 carMap.put(i, cars.get(i));
             }
