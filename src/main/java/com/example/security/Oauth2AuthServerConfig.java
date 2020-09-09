@@ -15,26 +15,23 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @EnableAuthorizationServer
 public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Value("${oauth.clientId}")
+    @Value("${user.oauth.user.username}")
     String clientId;
 
-    @Value("${oauth.clientSecret}")
+    @Value("${user.oauth.user.password}")
     String clientSecret;
 
-    @Value("${oauth.tokenValidityInSeconds}")
+    @Value("${user.oauth.tokenValidityInSeconds}")
     int tokenValiditySeconds;
 
-    @Value("${oauth.refreshTokenValidityInSeconds}")
+    @Value("${user.oauth.refreshTokenValidityInSeconds}")
     int refreshTokenValiditySeconds;
 
-    final AuthenticationManager authenticationManager;
-    final PasswordEncoder passwordEncoder;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
-    public Oauth2AuthServerConfig(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-    }
+    PasswordEncoder passwordEncoder;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
