@@ -1,5 +1,6 @@
 package com.example.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${user.oauth.user.username}")
-    private String username;
-    @Value("${user.oauth.user.password}")
-    private String password;
+//    @Value("${security.userName}")
+    private String userName = "myUsername";
+//    @Value("${security.password}")
+    private String password = "myPassword";
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -32,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser(username)
+                .withUser(userName)
                 .password(passwordEncoder().encode(password))
                 .roles("USER");
     }
@@ -41,12 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .authorizeRequests()
-                .anyRequest()
-                .denyAll()
-                .and()
-                .formLogin()
-                .disable();
+                .authorizeRequests().antMatchers("/login").permitAll()
+                .antMatchers("/tokens/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().permitAll()
+                .and().csrf().disable();
     }
 
 

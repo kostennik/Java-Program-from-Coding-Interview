@@ -8,10 +8,7 @@
     <artifactId>Search-Car-From-Location</artifactId>
     <version>1.0-SNAPSHOT</version>
     <description>Test task for an interview. API search car from location</description>
-    <modules>
-        <module>Authorization Server</module>
-    </modules>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
