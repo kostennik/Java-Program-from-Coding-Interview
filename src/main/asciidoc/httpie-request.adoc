@@ -1,6 +1,0 @@
-[source,bash]
-----
-$ http GET 'http://localhost:8080/getCars/53.9/20.88/80' \
-    'Authorization:Bearer <your_token>' \
-    'Accept:application/json'
-----

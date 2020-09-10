@@ -104,6 +104,12 @@
             <version>1.16.22</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctorj</artifactId>
+            <version>1.5.5</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -116,7 +122,7 @@
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.6</version>
+                <version>1.5.5</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.asciidoctor</groupId>
@@ -126,22 +132,18 @@
                 </dependencies>
                 <executions>
                     <execution>
-                        <id>generate-docs</id>
-                        <phase>package</phase>
+                        <id>output-html</id>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>process-asciidoc</goal>
                         </goals>
-                        <configuration>
-                            <backend>pdf</backend>
-<!--                            <doctype>book</doctype>-->
-                            <attributes>
-                                <snippets>${snippetsDirectory}</snippets>
-                            </attributes>
-                            <sourceDirectory>src/main/asciidocs</sourceDirectory>
-                            <outputDirectory>target/generated-docs</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <sourceDirectory>src/main/asciidoc/raw</sourceDirectory>
+                    <outputDirectory>src/main/asciidoc</outputDirectory>
+                    <backend>pdf</backend>
+                </configuration>
             </plugin>
 
         </plugins>

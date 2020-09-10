@@ -45,10 +45,6 @@ public class Car {
         this.coordinate = coordinate;
     }
 
-    public float getDistanceToTargetPosition() {
-        return distanceToTargetPosition;
-    }
-
     public void setDistanceToTargetPosition(float distanceToTargetPosition) {
         this.distanceToTargetPosition = distanceToTargetPosition;
     }
