@@ -1,8 +1,3 @@
-user:
-  oauth:
-    user:
-      username: Andrew
-      password: abcd
-
-    tokenValidityInSeconds: 3600
-    refreshTokenValidityInSeconds: 86400
+security:
+  username: myUsername
+  password: myPassword

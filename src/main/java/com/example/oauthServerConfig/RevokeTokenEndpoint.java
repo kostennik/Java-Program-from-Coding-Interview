@@ -1,4 +1,4 @@
-package com.example.oauthServer;
+package com.example.oauthServerConfig;
 
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;

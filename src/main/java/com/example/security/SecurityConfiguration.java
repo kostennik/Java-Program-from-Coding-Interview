@@ -13,9 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${user.oauth.user.username}")
-    private String username;
-    @Value("${user.oauth.user.password}")
+    @Value("${security.username}")
+    private String userName;
+    @Value("${security.password}")
     private String password;
 
     @Bean
@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser(username)
+                .withUser(userName)
                 .password(passwordEncoder().encode(password))
                 .roles("USER");
     }
