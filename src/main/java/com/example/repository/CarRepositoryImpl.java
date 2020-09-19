@@ -1,6 +1,5 @@
 package com.example.repository;
 
-import com.example.Memory;
 import com.example.domain.Car;
 import com.example.domain.Coordinate;
 import com.example.domain.Distance;
@@ -15,49 +14,52 @@ import java.util.List;
 @Slf4j
 @Repository
 public class CarRepositoryImpl implements CarRepository {
-    Distance distance = new Distance();
-    private List<Car> carList;
-    private List<Car> allCarsList;
-    private final String csvFile = "src/main/resources/gps_pos.csv";
+    private List<Car> allCarsList = new ArrayList<>();
+    private final String CSV_FILE = "src/main/resources/gps_pos.csv";
 
     @Override
     public List<Car> findCarsByCoordinatesAndDistance(Coordinate beginCoordinate, int meter) {
-        carList = new ArrayList<>();
+        List<Car> foundCars = new ArrayList<>();
         float distanceBetween;
 
-        for (int i = 0; i < allCarsList.size(); i++) {
-            distanceBetween = distance.distanceMeasurement(beginCoordinate, allCarsList.get(i).getCoordinate());
+        for (Car car : allCarsList) {
+            distanceBetween = Distance.distanceMeasurement(beginCoordinate, car.getCoordinate());
+
             if (distanceBetween < meter) {
-                carList.add(allCarsList.get(i));
+                foundCars.add(car);
             }
         }
-        log.info("{} objects of Car was found", carList.size());
-        return carList;
+        log.info("{} objects of Car was found", foundCars.size());
+        return foundCars;
     }
 
     @Override
-    public void loadAllCarsInMemory() {
-        Coordinate currentCoordinate;
-        Distance distance = new Distance();
-        allCarsList = new ArrayList<>();
-        CSVReader reader = null;
+    public void readFromDiskAndLoadAllCarsInMemory() {
+        CSVReader reader;
         try {
-            reader = new CSVReader(new FileReader(csvFile));
+            reader = new CSVReader(new FileReader(CSV_FILE));
             String[] cars;
             reader.readNext();  //skip first line
-            while ((cars = reader.readNext()) != null) {
-                if (!cars[1].isEmpty() && !cars[1].isEmpty() && !cars[2].isEmpty()) {
-                    currentCoordinate = new Coordinate(Double.parseDouble(cars[1]), Double.parseDouble(cars[2]));
 
-                    allCarsList.add(new Car(cars[0], currentCoordinate));
+            while ((cars = reader.readNext()) != null) {
+                if (!isEmpty(cars)) {
+                    addCarToList(cars);
                 }
             }
             log.info("{} objects of Car was loaded", allCarsList.size());
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("File {} doesnt exist", CSV_FILE);
         }
+    }
+
+    private boolean isEmpty(String[] cars){
+        return cars[1].isEmpty() && cars[2].isEmpty();
+
+    }
+
+    private void addCarToList(String[] cars) {
+        Coordinate currentCoordinate = new Coordinate(Double.parseDouble(cars[1]), Double.parseDouble(cars[2]));
+        allCarsList.add(new Car(cars[0], currentCoordinate));
     }
 }

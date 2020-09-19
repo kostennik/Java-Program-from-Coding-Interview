@@ -8,5 +8,5 @@ import java.util.List;
 public interface CarRepository {
     public List<Car> findCarsByCoordinatesAndDistance(Coordinate coordinate, int meter);
 
-    public void loadAllCarsInMemory();
+    public void readFromDiskAndLoadAllCarsInMemory();
 }

@@ -26,24 +26,26 @@ public class CarController {
     }
 
     @GetMapping("/getCars/{lat}/{lon}/{meters}")
-    public ResponseEntity<Map<Integer, Car>> getByCoordinate(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters) {
-        Map<Integer, Car> carMap = new HashMap<>();
+    public ResponseEntity<Map<Integer, Car>> getCarsByCoordinateAndDistance(@PathVariable double lat, @PathVariable double lon, @PathVariable int meters) {
+        Map<Integer, Car> carsMap = new HashMap<>();
 
         Thread userThread = new Thread(() -> {
             List<Car> cars = repository.findCarsByCoordinatesAndDistance(new Coordinate(lat, lon), meters);
             for (int i = 0; i < cars.size(); i++) {
-                carMap.put(i, cars.get(i));
+                carsMap.put(i, cars.get(i));
             }
         });
 
         userThread.start();
+
         try {
             userThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         log.info("new thread {} was created", userThread.getName());
-        System.out.println(carMap.toString());
-        return ResponseEntity.ok().body(carMap);
+
+        return ResponseEntity.ok().body(carsMap);
     }
 }

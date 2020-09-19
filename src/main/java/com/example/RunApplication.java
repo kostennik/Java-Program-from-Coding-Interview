@@ -16,6 +16,6 @@ public class RunApplication {
     //load all Cars from file to memory
     @Bean
     public CommandLineRunner dataLoader(CarRepository repo) {
-        return args -> repo.loadAllCarsInMemory();
+        return args -> repo.readFromDiskAndLoadAllCarsInMemory();
     }
 }

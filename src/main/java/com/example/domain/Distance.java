@@ -11,7 +11,7 @@ public class Distance {
      * @param targetCoordinate is target position
      * @return distance in meters
      */
-    public float distanceMeasurement(Coordinate beginCoordinate, Coordinate targetCoordinate) {
+    public static float distanceMeasurement(Coordinate beginCoordinate, Coordinate targetCoordinate) {
         double earthRadius = 6371000; //meters
         double dLat = Math.toRadians(targetCoordinate.getLatitude() - beginCoordinate.getLatitude());
         double dLng = Math.toRadians(targetCoordinate.getLongitude() - beginCoordinate.getLongitude());
