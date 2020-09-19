@@ -7,8 +7,6 @@ public class Distance {
 
     /**
      * measures a distance between current position and target position
-     * @param beginCoordinate is begin position (current)
-     * @param targetCoordinate is target position
      * @return distance in meters
      */
     public static float distanceMeasurement(Coordinate beginCoordinate, Coordinate targetCoordinate) {
