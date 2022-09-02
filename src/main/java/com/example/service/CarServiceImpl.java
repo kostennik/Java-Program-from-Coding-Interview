@@ -6,6 +6,7 @@ import com.example.domain.Distance;
 import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@SessionScope
 public class CarServiceImpl implements CarService {
     private List<Car> allCarsList = new ArrayList<>();
 
