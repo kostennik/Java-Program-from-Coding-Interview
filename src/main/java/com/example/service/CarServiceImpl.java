@@ -18,22 +18,6 @@ public class CarServiceImpl implements CarService {
     private List<Car> allCarsList = new ArrayList<>();
 
     @Override
-    public List<Car> findByCoordinatesAndDistance(Coordinate beginCoordinate, int meter) {
-        List<Car> foundCars = new ArrayList<>();
-        float distanceBetween;
-
-        for (Car car : allCarsList) {
-            distanceBetween = Distance.distanceMeasurement(beginCoordinate, car.getCoordinate());
-
-            if (distanceBetween < meter) {
-                foundCars.add(car);
-            }
-        }
-        log.info("{} objects of Car was found", foundCars.size());
-        return foundCars;
-    }
-
-    @Override
     public void loadCsv(MultipartFile file) {
         Reader reader = null;
         CSVReader csvReader;
@@ -55,6 +39,22 @@ public class CarServiceImpl implements CarService {
         }
 
         log.info("{} objects of Car was loaded", allCarsList.size());
+    }
+
+    @Override
+    public List<Car> findByCoordinatesAndDistance(Coordinate beginCoordinate, int meter) {
+        List<Car> foundCars = new ArrayList<>();
+        float distanceBetween;
+
+        for (Car car : allCarsList) {
+            distanceBetween = Distance.distanceMeasurement(beginCoordinate, car.getCoordinate());
+
+            if (distanceBetween < meter) {
+                foundCars.add(car);
+            }
+        }
+        log.info("{} objects of Car was found", foundCars.size());
+        return foundCars;
     }
 
     private boolean isEmpty(String[] elems) {
