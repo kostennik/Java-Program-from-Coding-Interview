@@ -1,6 +1,6 @@
 Search-Car-From-Location application API
 
-Actual API-documentation always are here:
+Actual API-documentation are always here:
 src/main/asciidoc
 
 1.For access to data You need to send your username and password and also clientId, clientSecret
@@ -29,13 +29,13 @@ src/main/asciidoc
     "jti": "2fbd72c5-2726-4e00-a511-6ccd3f27aaea"
     }
 
-3.Done! You have access to the data. Use the Your Access Token:
+3.Done! You have access to the data. Use Yours Access Token:
 
     http GET 'http://localhost:8080/getCars/53.9/20.88/100' \
         'Authorization:Bearer <your_token>' \
         'Accept:application/json'
 
- 4.Get Your data:
+4.Get Your data:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
