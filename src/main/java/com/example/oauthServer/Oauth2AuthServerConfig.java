@@ -1,4 +1,4 @@
-package com.example.oauthServerConfig;
+package com.example.oauthServer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +40,6 @@ public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
         oauthServer
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
-//                .allowFormAuthenticationForClients();
     }
 
     @Override
