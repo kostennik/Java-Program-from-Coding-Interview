@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @SessionScope
 public class CarServiceImpl implements CarService {
-    private List<Car> allCarsList = new ArrayList<>();
+    private List<Car> allCarsList;
 
     @Override
     public void loadCsv(MultipartFile file) {

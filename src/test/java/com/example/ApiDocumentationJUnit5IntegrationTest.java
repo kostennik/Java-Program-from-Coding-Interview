@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.web.FilterChainProxy;
@@ -23,8 +24,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,9 +61,9 @@ public class ApiDocumentationJUnit5IntegrationTest {
         params.add("password", PASSWORD);
 
         ResultActions result = mockMvc.perform(post("/oauth/token")
-                .params(params)
-                .with(httpBasic(CLIENT_ID, CLIENT_SECRET))
-                .accept(CONTENT_TYPE))
+                        .params(params)
+                        .with(httpBasic(CLIENT_ID, CLIENT_SECRET))
+                        .accept(CONTENT_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(CONTENT_TYPE));
 
@@ -82,19 +82,34 @@ public class ApiDocumentationJUnit5IntegrationTest {
         params.add("password", PASSWORD);
 
         this.mockMvc.perform(post("/oauth/token")
-                .params(params)
-                .with(httpBasic(CLIENT_ID, CLIENT_SECRET))
-                .accept(CONTENT_TYPE))
+                        .params(params)
+                        .with(httpBasic(CLIENT_ID, CLIENT_SECRET))
+                        .accept(CONTENT_TYPE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(CONTENT_TYPE));
 
     }
-    
+
+    @Test
+    public void loadCsv() throws Exception {
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "gps_pos.csv",
+                MediaType.TEXT_PLAIN_VALUE,
+                "".getBytes()
+        );
+        this.mockMvc.perform(multipart("/loadCsv")
+                        .file(file)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .accept(MediaType.MULTIPART_FORM_DATA));
+//                .andExpect(status().isOk());
+    }
+
     @Test
     public void getCarsByLocation() throws Exception {
         this.mockMvc.perform(get("/getCars/{latitude}/{longitude}/{distance}", 53.90, 20.88, 100)
-                .header("Authorization", "Bearer " + accessToken)
-                .accept(MediaType.APPLICATION_JSON))
+                        .header("Authorization", "Bearer " + accessToken)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

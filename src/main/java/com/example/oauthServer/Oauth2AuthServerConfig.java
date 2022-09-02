@@ -26,7 +26,7 @@ public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
 
     private String clientId = "clientOne";
     private String clientSecret = "secret";
-    int tokenValiditySeconds = 3600;
+    int tokenValiditySeconds = 360000;
     int refreshTokenValiditySeconds = 30 * 24 * 60;
 
     @Autowired
