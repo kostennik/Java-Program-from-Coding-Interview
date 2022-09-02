@@ -1,25 +1,24 @@
-package com.example.repository;
+package com.example.service;
 
 import com.example.domain.Car;
 import com.example.domain.Coordinate;
 import com.example.domain.Distance;
 import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Repository
-public class CarRepositoryImpl implements CarRepository {
+@Service
+public class CarServiceImpl implements CarService {
     private List<Car> allCarsList = new ArrayList<>();
-    private final String CSV_FILE = "src/main/resources/gps_pos.csv";
 
     @Override
-    public List<Car> findCarsByCoordinatesAndDistance(Coordinate beginCoordinate, int meter) {
+    public List<Car> findByCoordinatesAndDistance(Coordinate beginCoordinate, int meter) {
         List<Car> foundCars = new ArrayList<>();
         float distanceBetween;
 
@@ -35,28 +34,31 @@ public class CarRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public void readFromDiskAndLoadAllCarsInMemory() {
-        CSVReader reader;
-        try {
-            reader = new CSVReader(new FileReader(CSV_FILE));
-            String[] cars;
-            reader.readNext();  //skip first line
+    public void loadCsv(MultipartFile file) {
+        Reader reader = null;
+        CSVReader csvReader;
 
-            while ((cars = reader.readNext()) != null) {
-                if (!isEmpty(cars)) {
-                    addCarToList(cars);
+        try {
+            reader = new InputStreamReader(file.getInputStream());
+            csvReader = new CSVReader(reader);
+            csvReader.readNext();  //skipping first line
+            String[] rows;
+
+            while ((rows = csvReader.readNext()) != null) {
+                if (!isEmpty(rows)) {
+                    addCarToList(rows);
                 }
             }
-            log.info("{} objects of Car was loaded", allCarsList.size());
 
         } catch (IOException e) {
-            log.error("File {} doesnt exist", CSV_FILE);
+            e.printStackTrace();
         }
+
+        log.info("{} objects of Car was loaded", allCarsList.size());
     }
 
-    private boolean isEmpty(String[] cars){
-        return cars[1].isEmpty() && cars[2].isEmpty();
-
+    private boolean isEmpty(String[] elems) {
+        return elems[1].isEmpty() && elems[2].isEmpty();
     }
 
     private void addCarToList(String[] cars) {

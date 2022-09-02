@@ -1,4 +1,4 @@
-package com.example.repository;
+package com.example.service;
 
 import com.example.domain.Car;
 import com.example.domain.Coordinate;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CarRepositoryImplTest {
 
     @Autowired
-    private CarRepository repository;
+    private CarService repository;
     private Coordinate targetCoordinate = new Coordinate(53.9037654770889, 20.887423009119); //set target coordinate
     private final int distance = 100;
     private final int expectedCarQuantity = 3;
@@ -25,7 +25,7 @@ class CarRepositoryImplTest {
 
     @Test
     void findAllByCoordinates() {
-        List<Car> byCoordinates = repository.findCarsByCoordinatesAndDistance(targetCoordinate, distance);
+        List<Car> byCoordinates = repository.findByCoordinatesAndDistance(targetCoordinate, distance);
         byCoordinates.forEach(System.out::println);
         assertEquals(byCoordinates.size(), expectedCarQuantity);
     }
