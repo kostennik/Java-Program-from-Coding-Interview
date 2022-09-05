@@ -15,10 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CarServiceImplTest {
 
-    @Autowired
-    private CarService service;
+    private static final CarService service = new CarServiceImpl(); //need to create one time for all tests
     private Coordinate targetCoordinate = new Coordinate(53.9037654770889, 20.887423009119); //set target coordinate
-    private final int distance = 100;
+    private final int distance = 100000; //100km
     private final int expectedCarQuantity = 3;
 
     @Test
@@ -26,11 +25,11 @@ class CarServiceImplTest {
     void loadCsvTest(){
         var content = """
                 position_id,latitude,longitude
-                8e0b1e1a-e290-4344-8fa1-39de81c9d265,53.9037654770889,20.887423009119
-                65d6375e-b641-4791-ac74-8a84222b2ce9,53.9037654770889,20.887423009200
-                537b9506-e923-4c99-a8f4-1d02e4079408,53.9037654770889,20.887423009300
-                62ae4317-a2a3-4d74-997c-921932ff918f,53.9037654770889,20.887423009400
-                2884f5f9-e902-41a6-bc7d-e3569922025b,53.9037654770889,20.887423009500
+                8e0b1e1a-e290-4344-8fa1-39de81c9d265,53.0,20.0
+                65d6375e-b641-4791-ac74-8a84222b2ce9,53.1,20.1
+                537b9506-e923-4c99-a8f4-1d02e4079408,53.2,20.2
+                62ae4317-a2a3-4d74-997c-921932ff918f,53.3,20.3
+                2884f5f9-e902-41a6-bc7d-e3569922025b,53.4,20.4
                 """;
 
         MockMultipartFile file = new MockMultipartFile(

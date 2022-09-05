@@ -96,13 +96,21 @@ public class ApiDocumentationJUnit5IntegrationTest {
                 "file",
                 "gps_pos.csv",
                 MediaType.TEXT_PLAIN_VALUE,
-                "".getBytes()
+                """
+                position_id,latitude,longitude
+                8e0b1e1a-e290-4344-8fa1-39de81c9d265,53.0,20.0
+                65d6375e-b641-4791-ac74-8a84222b2ce9,53.1,20.1
+                537b9506-e923-4c99-a8f4-1d02e4079408,53.2,20.2
+                62ae4317-a2a3-4d74-997c-921932ff918f,53.3,20.3
+                2884f5f9-e902-41a6-bc7d-e3569922025b,53.4,20.4
+                """
+                        .getBytes()
         );
         this.mockMvc.perform(multipart("/loadCsv")
                         .file(file)
                         .header("Authorization", "Bearer " + accessToken)
-                        .accept(MediaType.MULTIPART_FORM_DATA));
-//                .andExpect(status().isOk());
+                        .accept(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isOk());
     }
 
     @Test
