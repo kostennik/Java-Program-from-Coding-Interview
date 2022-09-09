@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.domain.Car;
 import com.example.domain.Coordinate;
-import com.example.domain.Distance;
 import com.opencsv.CSVReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,14 +43,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> findByCoordinatesAndDistance(Coordinate beginCoordinate, int meter) {
+    public List<Car> findByCoordinatesAndDistance(Coordinate beginCoord, int distance) {
         List<Car> foundCars = new ArrayList<>();
-        float distanceBetween;
 
         for (Car car : allCarsList) {
-            distanceBetween = Distance.distanceMeasurement(beginCoordinate, car.getCoordinate());
-
-            if (distanceBetween < meter) {
+            var targetCoord = car.getCoordinate();
+            if (isPresent(beginCoord, targetCoord, distance)) {
                 foundCars.add(car);
             }
         }
@@ -66,5 +63,21 @@ public class CarServiceImpl implements CarService {
     private void addCarToList(String[] cars) {
         Coordinate currentCoordinate = new Coordinate(Double.parseDouble(cars[1]), Double.parseDouble(cars[2]));
         allCarsList.add(new Car(cars[0], currentCoordinate));
+    }
+
+    private boolean isPresent(Coordinate beginCoordinate, Coordinate targetCoordinate, double distance){
+        return distanceMeasurement(beginCoordinate, targetCoordinate) < distance;
+    }
+
+    private float distanceMeasurement(Coordinate beginCoordinate, Coordinate targetCoordinate) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(targetCoordinate.getLatitude() - beginCoordinate.getLatitude());
+        double dLng = Math.toRadians(targetCoordinate.getLongitude() - beginCoordinate.getLongitude());
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(beginCoordinate.getLatitude())) * Math.cos(Math.toRadians(targetCoordinate.getLatitude())) *
+                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return (float) (earthRadius * c);
     }
 }

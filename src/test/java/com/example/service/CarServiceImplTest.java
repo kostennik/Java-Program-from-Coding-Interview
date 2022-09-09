@@ -14,11 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CarServiceImplTest {
-
     private static final CarService service = new CarServiceImpl(); //need to create one time for all tests
-    private Coordinate targetCoordinate = new Coordinate(53.9037654770889, 20.887423009119); //set target coordinate
-    private final int distance = 100000; //100km
-    private final int expectedCarQuantity = 3;
 
     @Test
     @Order(1)
@@ -44,6 +40,10 @@ class CarServiceImplTest {
     @Test
     @Order(2)
     void findAllByCoordinates() {
+        final int distance = 100000; //100km
+        final int expectedCarQuantity = 3;
+        var targetCoordinate = new Coordinate(53.9037654770889, 20.887423009119);
+
         List<Car> byCoordinates = service.findByCoordinatesAndDistance(targetCoordinate, distance);
         byCoordinates.forEach(System.out::println);
         assertEquals(expectedCarQuantity, byCoordinates.size());
