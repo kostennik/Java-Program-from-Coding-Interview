@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
 @Service
 @SessionScope
 public class CarServiceImpl implements CarService {
-    private List<Car> allCarsList = new ArrayList<>();
+    private final List<Car> allCarsList = new ArrayList<>();
 
     @Override
     public void loadCsv(MultipartFile file) {

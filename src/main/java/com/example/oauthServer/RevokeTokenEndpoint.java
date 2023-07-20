@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RevokeTokenEndpoint {
 
     @Resource(name = "tokenServices")
-    ConsumerTokenServices tokenServices;
+    private ConsumerTokenServices tokenServices;
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/oauth/token")
     @ResponseBody

@@ -24,16 +24,19 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private String clientId = "clientOne";
-    private String clientSecret = "secret";
-    int tokenValiditySeconds = 360000;
-    int refreshTokenValiditySeconds = 30 * 24 * 60;
+    private final String clientId = "clientOne";
+    private final String clientSecret = "secret";
+    private final String SigningKey = "123";
+    private final int tokenValiditySeconds = 360000;
+    private final int refreshTokenValiditySeconds = 30 * 24 * 60;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public Oauth2AuthServerConfig(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -54,8 +57,9 @@ public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
         endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain).authenticationManager(authenticationManager);
     }
@@ -67,8 +71,9 @@ public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey(SigningKey);
+
         return converter;
     }
 
@@ -80,9 +85,10 @@ public class Oauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
     @Bean
     @Primary
     public DefaultTokenServices tokenServices() {
-        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setSupportRefreshToken(true);
+
         return defaultTokenServices;
     }
 }

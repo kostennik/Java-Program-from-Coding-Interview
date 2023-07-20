@@ -45,8 +45,7 @@ public class ApiDocumentationJUnit5IntegrationTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext,
-                      RestDocumentationContextProvider restDocumentation) throws Exception {
+    public void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentation))
                 .alwaysDo(document("{method-name}",

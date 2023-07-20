@@ -3,18 +3,27 @@ package com.example.service;
 import com.example.domain.Car;
 import com.example.domain.Coordinate;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CarServiceImplTest {
-    private static final CarService service = new CarServiceImpl(); //need to create one time for all tests
+
+    private static CarService service; //need to create one time for all tests
+    @BeforeAll
+    public static void setUpClass() {
+        service = new CarServiceImpl();
+    }
 
     @Test
     @Order(1)
@@ -37,15 +46,19 @@ class CarServiceImplTest {
         service.loadCsv(file);
     }
 
-    @Test
-    @Order(2)
-    void findAllByCoordinates() {
-        final int distance = 100000; //100km
-        final int expectedCarQuantity = 3;
-        var targetCoordinate = new Coordinate(53.9037654770889, 20.887423009119);
+    @ParameterizedTest
+    @MethodSource("testData")
+    void testFindAllByCoordinates(double lat, double lon, int distance, int expectedCarQuantity) {
+        var targetCoordinate = new Coordinate(lat, lon);
 
-        List<Car> byCoordinates = service.findByCoordinatesAndDistance(targetCoordinate, distance);
-        byCoordinates.forEach(System.out::println);
-        assertEquals(expectedCarQuantity, byCoordinates.size());
+        List<Car> found = service.findByCoordinatesAndDistance(targetCoordinate, distance);
+        assertEquals(expectedCarQuantity, found.size());
+    }
+
+    private static Stream<Arguments> testData() {
+        return Stream.of(
+                Arguments.of(53.9037654770889, 20.887423009119, 100000, 3), // distance 100 km, expected 3 cars
+                Arguments.of(52.2296756, 21.0122287, 50000, 0)// // distance 50 km, expected 0 cars
+        );
     }
 }
